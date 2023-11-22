@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.widget.Button
+import android.widget.SearchView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -29,6 +30,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var taskAdapter: TaskAdapter
     private lateinit var realm: Realm
+    private lateinit var searchView: SearchView
 
     private val requestPermissonLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()){isGranted ->
@@ -45,6 +47,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
         // OSバージョン確認APIレベル33以上
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -79,7 +82,6 @@ class MainActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
-
 
         binding.fab.setOnClickListener {
             val intent = Intent(this, InputActivity::class.java)
@@ -142,6 +144,12 @@ class MainActivity : AppCompatActivity() {
 
             true
         }
+        binding.button1.setOnClickListener{
+            val catgory = binding.editText.text
+            val tasks =realm.query<Task>("category = $0",catgory.toString()).find()
+            taskAdapter.updateTaskList(tasks)
+        }
+
         
         // Realmデータベースとの接続を開く
         val config = RealmConfiguration.create(schema = setOf(Task::class))
@@ -181,6 +189,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 }
+
 
 
 //<EditText

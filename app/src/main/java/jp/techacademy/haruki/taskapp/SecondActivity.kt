@@ -25,32 +25,20 @@ class SecondActivity : AppCompatActivity() {
     private lateinit var realm: Realm
     private lateinit var task: Task
     private lateinit var category: Category
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityInputBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // アクションバーの設定
-        setSupportActionBar(binding.toolbar)
-        if (supportActionBar != null) {
-            supportActionBar!!.setDisplayHomeAsUpEnabled(true)
-        }
-
-        // EXTRA_TASKからTaskのidを取得
         val intent = intent
         val taskId = intent.getIntExtra(EXTRA_TASK, -1)
 
         // Realmデータベースとの接続を開く
         val config = RealmConfiguration.create(schema = setOf(Task::class))
         realm = Realm.open(config)
+
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-
-        // Realmデータベースとの接続を閉じる
-        realm.close()
-    }
-
-
 }
+
+

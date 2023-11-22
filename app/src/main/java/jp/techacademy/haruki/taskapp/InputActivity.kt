@@ -134,6 +134,7 @@ class InputActivity : AppCompatActivity() {
             // taskの値を画面項目に反映
             binding.content.titleEditText.setText(task.title)
             binding.content.contentEditText.setText(task.contents)
+            binding.content.categoryEditText.setText(task.category)
         }
 
         // 日付と時刻のボタンの表示を設定
@@ -151,6 +152,7 @@ class InputActivity : AppCompatActivity() {
         val title = binding.content.titleEditText.text.toString()
         val content = binding.content.contentEditText.text.toString()
         val date = simpleDateFormat.format(calendar.time)
+        val category = binding.content.categoryEditText.text.toString()
 
         if (task.id == -1) {
             // 登録
@@ -174,6 +176,7 @@ class InputActivity : AppCompatActivity() {
                     this.title = title
                     this.contents = content
                     this.date = date
+                    this.category =category
                 }
             }
         }
